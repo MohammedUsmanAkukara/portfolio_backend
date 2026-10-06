@@ -25,7 +25,7 @@ router.post('/upload', upload.single('image'), async (req, res) => {
 
     // Kyunki memory storage hai, file req.file.buffer me hai.
     // Ise Cloudinary par upload karne ka tareeqa:
-    cloudinary.uploader.upload_stream({ folder: "construction_projects" }, (error, result) => {
+    cloudinary.uploader.upload_stream({ folder: "uploads" }, (error, result) => {
       if (error) return res.status(500).json({ error: error.message });
 
       // Result me se secure_url mil jayega jo aap database me save karoge
@@ -36,7 +36,7 @@ router.post('/upload', upload.single('image'), async (req, res) => {
     }).end(req.file.buffer);
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: "ff" });
   }
 });
 
