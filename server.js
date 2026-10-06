@@ -6,7 +6,13 @@ require('dotenv').config();
 const app = express();
 
 // Middlewares
-app.use(cors({ origin: 'https://mdusmanakukara.vercel.app' })); 
+if (window.location.hostname === 'localhost') {
+  app.use(cors({ origin: 'http://localhost:5000' })); 
+} else {
+  app.use(cors({ origin: 'https://mdusmanakukara.vercel.app' }));
+}
+
+
 app.use(express.json());
 
 // MongoDB Connection
