@@ -5,6 +5,9 @@ require('dotenv').config();
 
 const app = express();
 
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
 // Middlewares
 const allowedOrigins = [
   'http://localhost:5173', // Agar Vite use kar rahe ho

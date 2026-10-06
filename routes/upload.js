@@ -1,19 +1,9 @@
 const express = require('express');
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 const router = express.Router();
-const cloudinary = require('cloudinary').v2;
 
-// Uploads folder automatically banaye agar nahi hai
-const uploadDir = './uploads';
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir);
-}
-
-// Multer Storage Configuration
+// Memory storage use karein taaki Vercel par error na aaye
 const storage = multer.memoryStorage();
-
 const upload = multer({ storage: storage });
 
 // @route   POST /api/upload
@@ -23,20 +13,19 @@ router.post('/', upload.single('image'), async (req, res) => {
       return res.status(400).json({ error: 'No file uploaded' });
     }
 
-    // Kyunki memory storage hai, file req.file.buffer me hai.
-    // Ise Cloudinary par upload karne ka tareeqa:
-    cloudinary.uploader.upload_stream({ folder: "uploads" }, (error, result) => {
-      if (error) return res.status(500).json({ error: error.message });
+    // Buffer ko Base64 Data URL mein convert karna
+    const b64 = Buffer.from(req.file.buffer).toString("base64");
+    let mimeType = req.file.mimetype; 
+    let dataUrl = `data:${mimeType};base64,${b64}`;
 
-      // Result me se secure_url mil jayega jo aap database me save karoge
-      res.status(200).json({
-        message: "Image uploaded successfully!",
-        imageUrl: result.secure_url // Yeh link aapke frontend/database me jayega
-      });
-    }).end(req.file.buffer);
+    // Yeh dataUrl hi aapka final image string hai jo database mein jayega
+    return res.status(200).json({
+      message: "Image uploaded successfully!",
+      imageUrl: dataUrl // Yeh key 'imageUrl' match honi chahiye frontend ke response se
+    });
 
   } catch (err) {
-    res.status(500).json({ error: "ff" });
+    return res.status(500).json({ error: err.message });
   }
 });
 

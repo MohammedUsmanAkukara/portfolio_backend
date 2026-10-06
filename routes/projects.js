@@ -40,7 +40,7 @@ router.put('/:id', protect, async (req, res) => {
     const project = await Project.findByIdAndUpdate(
       req.params.id, 
       req.body, 
-      { new: true, runValidators: true } // new: true updated document return karta hai
+      { returnDocument: 'after', runValidators: true } // new: true updated document return karta hai
     );
 
     if (!project) {
