@@ -22,7 +22,7 @@ router.post('/', upload.single('image'), (req, res) => {
       return res.status(400).json({ success: false, message: 'No file uploaded' });
     }
     // File ka accessible URL generate karna
-    const imageUrl = `http://localhost:5000/uploads/${req.file.filename}`;
+    const imageUrl = `https://portfolio-backend-31zk.vercel.app/uploads/${req.file.filename}`;
     res.status(200).json({ success: true, url: imageUrl });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server error' });
