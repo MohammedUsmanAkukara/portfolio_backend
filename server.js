@@ -6,7 +6,7 @@ require('dotenv').config();
 const app = express();
 
 // Middlewares
-app.use(cors({ origin: 'https://mdusmanakukara.vercel.app/' })); 
+app.use(cors({ origin: 'https://mdusmanakukara.vercel.app' })); 
 app.use(express.json());
 
 // MongoDB Connection
