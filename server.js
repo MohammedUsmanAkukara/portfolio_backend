@@ -7,7 +7,7 @@ const app = express();
 
 // Middlewares
 if (window.location.hostname === 'localhost') {
-  app.use(cors({ origin: 'http://localhost:5000' })); 
+  app.use(cors({ origin: 'http://localhost:5173' })); 
 } else {
   app.use(cors({ origin: 'https://mdusmanakukara.vercel.app' }));
 }
