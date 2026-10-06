@@ -11,20 +11,9 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 // Multer Storage Configuration
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadDir);
-  },
-  filename: function (req, file, cb) {
-    // Unique naam generate karna: image-163234.jpg
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-  }
-});
+const storage = multer.memoryStorage();
 
-const upload = multer({ 
-  storage: storage,
-  limits: { fileSize: 5000000 } // 5MB limit
-});
+const upload = multer({ storage: storage });
 
 // @route   POST /api/upload
 router.post('/', upload.single('image'), (req, res) => {
