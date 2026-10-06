@@ -6,13 +6,30 @@ require('dotenv').config();
 const app = express();
 
 // Middlewares
-if (window.location.hostname === 'localhost') {
-  app.use(cors({ origin: 'http://localhost:5173' })); 
-} else {
-  app.use(cors({ origin: 'https://mdusmanakukara.vercel.app' }));
-}
+const allowedOrigins = [
+  'http://localhost:5173', // Agar Vite use kar rahe ho
+  'https://mdusmanakukara.vercel.app' // Aapka live frontend Vercel URL
+];
 
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Agar request server se hai (jaise Postman ya server-to-server) toh origin undefined hota hai
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      // Agar origin allowed list me hai
+      callback(null, true);
+    } else {
+      // Agar origin allowed nahi hai
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // Agar cookies ya authorization headers bhej rahe ho
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
 
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // MongoDB Connection
