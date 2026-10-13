@@ -47,6 +47,8 @@ const homeRoutes = require('./routes/home');
 const aboutRoutes = require('./routes/about');
 const serviceRoutes = require('./routes/services');
 const contactRoutes = require('./routes/contact');
+const clientRoutes = require('./routes/clients');
+const invoiceRoutes = require('./routes/invoices');
 
 const path = require('path');
 const uploadRoutes = require('./routes/upload');
@@ -58,6 +60,8 @@ app.use('/api/home', homeRoutes);
 app.use('/api/about', aboutRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/clients', clientRoutes);
+app.use('/api/invoices', invoiceRoutes);
 
 
 
